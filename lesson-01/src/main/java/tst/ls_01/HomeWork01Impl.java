@@ -68,5 +68,6 @@ public class HomeWork01Impl implements HomeWork01 {
             if (ret.equals(ra.trim()))
                 result += Integer.parseInt(r);
         }
+        System.out.println("Опрос завершен.");
     }
 }

@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args){
         ApplicationContext ctx = new ClassPathXmlApplicationContext("/spring-context.xml");
-        hw = (HomeWork01Impl)ctx.getBean("homeWork01");
+        hw = (HomeWork01Impl) ctx.getBean("homeWork01");
         String csv = hw.getFileData();
         Resource res = ctx.getResource(csv);
         String resStr = hw.readRes(res);
@@ -21,5 +21,6 @@ public class Main {
         System.out.println("Сейчас вам будут заданы несколько вопросов.");
         hw.startSurvey(resStr);
         hw.printResult(lName, fName);
+		System.out.println("FINISH!!!");
     }
 }

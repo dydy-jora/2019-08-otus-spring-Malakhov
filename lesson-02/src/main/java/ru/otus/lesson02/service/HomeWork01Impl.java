@@ -2,6 +2,7 @@ package ru.otus.lesson02.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import ru.otus.lesson02.service.HomeWork01;
@@ -81,4 +82,17 @@ public class HomeWork01Impl implements HomeWork01 {
                 result += Integer.parseInt(r);
         }
     }
+
+	public void runme(ApplicationContext ctx) {
+        String csv = this.getFileData();
+        Resource res = ctx.getResource(csv);
+        String resStr = this.readRes(res);
+        String message = "Как ваша фамилия? ";
+        String lName = this.askQuestion(message);
+        message = "Как ваше имя? ";
+        String fName = this.askQuestion(message);
+        System.out.println("Сейчас вам будут заданы несколько вопросов.");
+        this.startSurvey(resStr);
+        this.printResult(lName, fName);
+	}
 }

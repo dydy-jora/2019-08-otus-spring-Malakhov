@@ -1,4 +1,4 @@
-package ru.otus.lesson02.config;
+package tst.ls_01.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import ru.otus.lesson02.service.HomeWork01;
-import ru.otus.lesson02.service.HomeWork01Impl;
+import tst.ls_01.service.HomeWork01;
+import tst.ls_01.service.HomeWork01Impl;
 
 @PropertySource("classpath:app.properties")
 @Configuration
@@ -26,8 +26,8 @@ public class ServicesConfig {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-	@Bean
+    @Bean
     public HomeWork01 homeWork01() {
-        return new HomeWork01Impl();
+      return new HomeWork01Impl();
     }
 }

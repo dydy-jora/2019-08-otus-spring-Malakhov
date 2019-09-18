@@ -1,22 +1,32 @@
-package ru.otus.lesson02.service;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.MessageSource;
-import org.springframework.core.io.Resource;
-import ru.otus.lesson02.service.HomeWork01;
+package tst.ls_01.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.io.Resource;
+
 public class HomeWork01Impl implements HomeWork01 {
 
     public int result;
     @Value("${fileName}")
     public String fileData;
+    @Value("${msg1}")
+    public String msg1;
+    @Value("${msg2}")
+    public String msg2;
+    @Value("${msg3}")
+    public String msg3;
+    @Value("${msg4}")
+	private char[] msg4;
+    @Value("${msg5}")
+	private char[] msg5;
+  
     @Autowired
     private MessageSource ms;
 
@@ -24,7 +34,7 @@ public class HomeWork01Impl implements HomeWork01 {
 
     /* получаем имя файла конфигурации */
     public String getFileData(){
-        return fileData;
+        return this.fileData;
     }
 
     public MessageSource getMs(){
@@ -52,12 +62,34 @@ public class HomeWork01Impl implements HomeWork01 {
     public String readRes(Resource res) {
         if (res == null) return null;
         String str = "";
+        Scanner scanner = null;
+		try {
+			scanner = new Scanner(res.getInputStream(), "UTF-8");
+	        str = scanner.useDelimiter("\\A").next();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			scanner.close();
+		}
+        return str;
+    }
+    private void show_Question(String vopros) {
+//    	System.out.println(msg5 + vopros);
+    	System.out.println(vopros);
+    }
+    private void showAnswers(String[] os) {
+    	System.out.println(msg4);
+        for (String ss : os)
+            System.out.println(ss);
+    }
+    private String readAnswer() {
+    	String ret = "";
         try {
-            str = new Scanner(res.getInputStream(), "UTF-8").useDelimiter("\\A").next();
+            ret = new BufferedReader(new InputStreamReader(System.in)).readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return str;
+        return ret;
     }
     /* проводим опрос */
     public void startSurvey(String qv) {
@@ -69,30 +101,25 @@ public class HomeWork01Impl implements HomeWork01 {
             String[] os = otvet.split(":");
             String ra = arr[2].trim();
             String r = arr[3].trim();
-            System.out.println("Вопрос: " + vopros + "\nВарианты ответов: ");
-            for (String ss : os)
-                System.out.println(ss);
-            String ret = "";
-            try {
-                ret = new BufferedReader(new InputStreamReader(System.in)).readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            show_Question(vopros);
+            showAnswers(os);
+            String ret = readAnswer();
+            
             if (ret.equals(ra.trim()))
-                result += Integer.parseInt(r);
+                this.result += Integer.parseInt(r);
         }
     }
 
-	public void runme(ApplicationContext ctx) {
-        String csv = this.getFileData();
-        Resource res = ctx.getResource(csv);
+	public void runme(AnnotationConfigApplicationContext context) {
+		String csv = this.getFileData();
+        Resource res = context.getResource(csv);
         String resStr = this.readRes(res);
-        String message = "Как ваша фамилия? ";
+        String message = msg1;
         String lName = this.askQuestion(message);
-        message = "Как ваше имя? ";
+        message = msg2;
         String fName = this.askQuestion(message);
-        System.out.println("Сейчас вам будут заданы несколько вопросов.");
+        System.out.println(msg3);
         this.startSurvey(resStr);
         this.printResult(lName, fName);
-	}
+	} 
 }

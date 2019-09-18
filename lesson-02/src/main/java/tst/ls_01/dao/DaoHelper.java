@@ -1,4 +1,4 @@
-package ru.otus.lesson02.dao;
+package tst.ls_01.dao;
 
 /* TODO сюда надо перетащить все поля в которых хранятся данные */
 public class DaoHelper {

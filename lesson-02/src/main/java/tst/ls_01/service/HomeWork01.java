@@ -1,7 +1,7 @@
-package ru.otus.lesson02.service;
+package tst.ls_01.service;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.io.Resource;
 
 public interface HomeWork01 {
@@ -11,5 +11,5 @@ public interface HomeWork01 {
     void startSurvey(String qv);
     String getFileData();
     MessageSource getMs();
-	void runme(ApplicationContext ctx);
+	void runme(AnnotationConfigApplicationContext context);
 }

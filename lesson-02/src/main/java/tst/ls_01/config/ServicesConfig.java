@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import tst.ls_01.dao.DaoHelper;
+import tst.ls_01.dao.DaoHelperImp;
 import tst.ls_01.service.HomeWork01;
 import tst.ls_01.service.HomeWork01Impl;
 
@@ -27,7 +29,14 @@ public class ServicesConfig {
     }
 
     @Bean
-    public HomeWork01 homeWork01() {
-      return new HomeWork01Impl();
+    public HomeWork01 homeWork01(MessageSource msb, DaoHelper helper) {
+
+        return new HomeWork01Impl(msb);
+    }
+
+    @Bean
+    public DaoHelper helper(MessageSource msg){
+
+        return new DaoHelperImp(msg);
     }
 }

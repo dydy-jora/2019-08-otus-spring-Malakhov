@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.io.Resource;
+import tst.ls_01.dao.DaoHelper;
 
 public class HomeWork01Impl implements HomeWork01 {
 
@@ -29,10 +30,15 @@ public class HomeWork01Impl implements HomeWork01 {
   
     @Autowired
     private MessageSource ms;
+    @Autowired
+    private DaoHelper helper;
 
-    public HomeWork01Impl(){ }
+    public HomeWork01Impl(MessageSource msb){
+        this.ms = msb;
+    }
 
     /* получаем имя файла конфигурации */
+    @Override
     public String getFileData(){
         return this.fileData;
     }
@@ -42,6 +48,7 @@ public class HomeWork01Impl implements HomeWork01 {
     }
 
     /* спрашиваем имя или фамилию */
+    @Override
     public String askQuestion( String qv) {
         System.out.println(qv);
         String ret = "";
@@ -52,13 +59,9 @@ public class HomeWork01Impl implements HomeWork01 {
         }
         return ret;
     }
-    /* выводим результат опроса */
-    public void printResult(String fName, String lName) {
-        System.out.println(String.format("Уважаемый, %s ",fName)+
-                String.format("%s, по результатам опроса вы набрали ",lName)+
-                String.format("%d баллов.", result));
-    }
+
     /* читаем ресурс с вопросами */
+    @Override
     public String readRes(Resource res) {
         if (res == null) return null;
         String str = "";
@@ -73,25 +76,9 @@ public class HomeWork01Impl implements HomeWork01 {
 		}
         return str;
     }
-    private void show_Question(String vopros) {
-//    	System.out.println(msg5 + vopros);
-    	System.out.println(vopros);
-    }
-    private void showAnswers(String[] os) {
-    	System.out.println(msg4);
-        for (String ss : os)
-            System.out.println(ss);
-    }
-    private String readAnswer() {
-    	String ret = "";
-        try {
-            ret = new BufferedReader(new InputStreamReader(System.in)).readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return ret;
-    }
+
     /* проводим опрос */
+    @Override
     public void startSurvey(String qv) {
         String[] narr = qv.split("\n");
         for (String s:narr) {
@@ -101,17 +88,19 @@ public class HomeWork01Impl implements HomeWork01 {
             String[] os = otvet.split(":");
             String ra = arr[2].trim();
             String r = arr[3].trim();
-            show_Question(vopros);
-            showAnswers(os);
-            String ret = readAnswer();
+            helper.showQuestion(vopros);
+            helper.showAnswers(os);
+            String ret = helper.readAnswer();
             
             if (ret.equals(ra.trim()))
                 this.result += Integer.parseInt(r);
         }
     }
-
-	public void runme(AnnotationConfigApplicationContext context) {
-		String csv = this.getFileData();
+    /* запускаем опрос */
+    @Override
+	public void runme(AnnotationConfigApplicationContext context, DaoHelper helper) {
+        this.helper = helper;
+        String csv = this.getFileData();
         Resource res = context.getResource(csv);
         String resStr = this.readRes(res);
         String message = msg1;
@@ -120,6 +109,6 @@ public class HomeWork01Impl implements HomeWork01 {
         String fName = this.askQuestion(message);
         System.out.println(msg3);
         this.startSurvey(resStr);
-        this.printResult(lName, fName);
+        helper.printResult(lName, fName, result);
 	} 
 }

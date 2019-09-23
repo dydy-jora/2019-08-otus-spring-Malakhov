@@ -98,7 +98,7 @@ public class HomeWork01Impl implements HomeWork01 {
     }
     /* запускаем опрос */
     @Override
-	public void runme(AnnotationConfigApplicationContext context, DaoHelper helper) {
+	public void runme(AnnotationConfigApplicationContext context) {
         this.helper = helper;
         String csv = this.getFileData();
         Resource res = context.getResource(csv);

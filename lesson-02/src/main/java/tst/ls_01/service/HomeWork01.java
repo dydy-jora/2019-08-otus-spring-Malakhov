@@ -11,5 +11,5 @@ public interface HomeWork01 {
     String askQuestion(String qv);
     String readRes(Resource res);
     void startSurvey(String qv);
-    void runme(AnnotationConfigApplicationContext context, DaoHelper helper);
+    void runme(AnnotationConfigApplicationContext context);
 }

@@ -2,6 +2,7 @@ package tst.ls_04.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ansi.AnsiColor;
 import org.springframework.context.MessageSource;
 
 import java.io.BufferedReader;
@@ -19,9 +20,9 @@ public class DaoHelperImp implements DaoHelper {
     @Value("${msg3}")
     public String msg3;
     @Value("${msg4}")
-    private char[] msg4;
+    private String msg4;
     @Value("${msg5}")
-    private char[] msg5;
+    private String msg5;
 
     @Autowired
     private MessageSource ms;
@@ -39,9 +40,10 @@ public class DaoHelperImp implements DaoHelper {
     /* выводим варианты ответов */
     @Override
     public void showAnswers(String[] vo) {
-        System.out.println(msg4);
+        System.out.println("\u001B[31m"+msg4+"\u001B[0m");
+
         for (String ss : vo)
-            System.out.println(ss);
+            System.out.println("\u001B[33m"+ss+"\u001B[0m");
     }
 
     /* получаем ответы на вопросы */

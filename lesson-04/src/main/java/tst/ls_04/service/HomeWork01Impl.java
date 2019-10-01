@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ansi.AnsiColor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.io.Resource;
@@ -50,7 +51,8 @@ public class HomeWork01Impl implements HomeWork01 {
     /* спрашиваем имя или фамилию */
     @Override
     public String askQuestion( String qv) {
-        System.out.println(qv);
+//        System.out.print(AnsiColor.BRIGHT_RED);
+        System.out.println("\u001B[31m"+qv+"\u001B[0m");
         String ret = "";
         try {
             ret = new BufferedReader(new InputStreamReader(System.in)).readLine();
@@ -88,7 +90,7 @@ public class HomeWork01Impl implements HomeWork01 {
             String[] os = otvet.split(":");
             String ra = arr[2].trim();
             String r = arr[3].trim();
-            helper.showQuestion(vopros);
+            helper.showQuestion("\u001B[31m"+vopros+"\u001B[0m");
             helper.showAnswers(os);
             String ret = helper.readAnswer();
             

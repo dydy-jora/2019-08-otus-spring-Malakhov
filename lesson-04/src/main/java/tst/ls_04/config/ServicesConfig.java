@@ -11,7 +11,7 @@ import tst.ls_04.dao.DaoHelperImp;
 import tst.ls_04.service.HomeWork01;
 import tst.ls_04.service.HomeWork01Impl;
 
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.yml")
 @Configuration
 public class ServicesConfig {
 

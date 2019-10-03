@@ -7,8 +7,6 @@ import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ansi.AnsiColor;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.io.Resource;
 import tst.ls_04.dao.DaoHelper;
@@ -30,13 +28,7 @@ public class HomeWork01Impl implements HomeWork01 {
 	private char[] msg5;
   
     @Autowired
-    private MessageSource ms;
-    @Autowired
     private DaoHelper helper;
-
-    public HomeWork01Impl(MessageSource msb){
-        this.ms = msb;
-    }
 
     /* получаем имя файла конфигурации */
     @Override
@@ -44,14 +36,9 @@ public class HomeWork01Impl implements HomeWork01 {
         return this.fileData;
     }
 
-    public MessageSource getMs(){
-        return this.ms;
-    }
-
     /* спрашиваем имя или фамилию */
     @Override
     public String askQuestion( String qv) {
-//        System.out.print(AnsiColor.BRIGHT_RED);
         System.out.println("\u001B[31m"+qv+"\u001B[0m");
         String ret = "";
         try {
@@ -100,15 +87,12 @@ public class HomeWork01Impl implements HomeWork01 {
     }
     /* запускаем опрос */
     @Override
-	public void runme(AnnotationConfigApplicationContext context, DaoHelper helper) {
-        this.helper = helper;
+	public void runme(AnnotationConfigApplicationContext context) {
         String csv = this.getFileData();
         Resource res = context.getResource(csv);
         String resStr = this.readRes(res);
-        String message = msg1;
-        String lName = this.askQuestion(message);
-        message = msg2;
-        String fName = this.askQuestion(message);
+        String lName = this.askQuestion(msg1);
+        String fName = this.askQuestion(msg2);
         System.out.println(msg3);
         this.startSurvey(resStr);
         helper.printResult(lName, fName, result);

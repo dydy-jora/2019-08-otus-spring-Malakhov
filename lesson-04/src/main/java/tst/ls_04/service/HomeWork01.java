@@ -7,9 +7,8 @@ import tst.ls_04.dao.DaoHelper;
 
 public interface HomeWork01 {
     String getFileData();
-    MessageSource getMs();
     String askQuestion(String qv);
     String readRes(Resource res);
     void startSurvey(String qv);
-    void runme(AnnotationConfigApplicationContext context, DaoHelper helper);
+    void runme(AnnotationConfigApplicationContext context);
 }

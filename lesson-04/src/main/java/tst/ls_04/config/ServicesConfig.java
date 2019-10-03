@@ -29,12 +29,13 @@ public class ServicesConfig {
     }
 
     @Bean
-    public HomeWork01 homeWork01(MessageSource msb, DaoHelper helper) {
-       return new HomeWork01Impl(msb);
+    public HomeWork01 homeWork01() {
+        return new HomeWork01Impl();
     }
 
     @Bean
-    public DaoHelper helper(MessageSource msg){
-        return new DaoHelperImp(msg);
+    public DaoHelper helper(){
+        return new DaoHelperImp();
     }
+
 }
